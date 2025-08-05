@@ -1,8 +1,9 @@
 <template>
   <div
-    class="d-flex flex-column"
+    class="d-flex flex-column bg-body-tertiary"
+    data-bs-theme="dark"
     style="
-      min-height: 96vh !important;
+      min-height: 100vh !important;
       padding-top: 1.2rem;
       padding-left: 12px;
       padding-right: 12px;
@@ -11,7 +12,7 @@
     <!-- Tombol Back Ikon Panah Kiri -->
     <router-link
       to="/events"
-      class="text-decoration-none text-dark mb-3 d-inline-flex align-items-center"
+      class="text-decoration-none text-body-secondary mb-3 d-inline-flex align-items-center"
       style="gap: 4px; padding-bottom: 0.5rem"
     >
       <svg
@@ -19,7 +20,7 @@
         width="20"
         height="20"
         fill="none"
-        stroke="#808080"
+        stroke="currentColor"
         stroke-width="2"
         stroke-linecap="round"
         stroke-linejoin="round"
@@ -31,13 +32,13 @@
     <div v-if="loading">Loading data...</div>
 
     <div v-else-if="event">
-      <h4>{{ event.name }}</h4>
+      <h4 class="text-light">{{ event.name }}</h4>
       <!-- tambahkan jadwal -->
       <div class="row g-3 mt-2" v-if="event.event_schedules?.length">
         <div v-for="(s, i) in event.event_schedules" :key="i" class="col-12">
           <div class="card h-100 shadow-sm border-0" style="border-radius: 8px">
             <div class="card-body p-3">
-              <h6 class="mb-1 text-dark" style="font-weight: 500">
+              <h6 class="mb-1 text-light" style="font-weight: 500">
                 {{ s.descrip }}
               </h6>
               <p class="mb-0 text-muted" style="font-size: 0.9rem">
@@ -86,7 +87,9 @@
       <span>Scan</span>
     </router-link>
     <!-- Footer -->
-    <footer class="mt-auto text-dark border-top text-center py-2 small">
+    <footer
+      class="mt-auto text-body-secondary border-top text-center py-3 small"
+    >
       SBM ITB Event App © 2025
     </footer>
   </div>
@@ -125,3 +128,29 @@ onMounted(() => {
     .catch((err) => console.error("❌ Proxy failed:", err));
 });
 </script>
+
+<style>
+[data-bs-theme="dark"] {
+  --bs-primary: #fd7e14;
+  --bs-primary-rgb: 253, 126, 20;
+  --bs-primary-text-emphasis: #fd9d4a;
+  --bs-primary-bg-subtle: #331a04;
+  --bs-primary-border-subtle: #663308;
+  --bs-link-color: #fd9d4a;
+  --bs-link-hover-color: #fdaa60;
+  --bs-link-color-rgb: 253, 157, 74;
+  --bs-link-hover-color-rgb: 253, 170, 96;
+}
+
+[data-bs-theme="dark"] .btn-outline-primary {
+  --bs-btn-color: var(--bs-primary);
+  --bs-btn-border-color: var(--bs-primary);
+  --bs-btn-hover-color: #fff;
+  --bs-btn-hover-bg: var(--bs-primary);
+  --bs-btn-hover-border-color: var(--bs-primary);
+  --bs-btn-active-color: #fff;
+  --bs-btn-active-bg: var(--bs-primary);
+  --bs-btn-active-border-color: var(--bs-primary);
+  --bs-btn-focus-shadow-rgb: var(--bs-primary-rgb);
+}
+</style>

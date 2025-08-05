@@ -1,8 +1,9 @@
 <template>
   <div
-    class="d-flex flex-column"
+    class="d-flex flex-column bg-body-tertiary"
+    data-bs-theme="dark"
     style="
-      min-height: 96vh !important;
+      min-height: 100vh !important;
       padding-top: 50px;
       padding-left: 20px;
       padding-right: 20px;
@@ -10,7 +11,8 @@
   >
     <!-- Header -->
     <header style="margin-bottom: 30px; position: relative">
-      <h3>List of Events</h3>
+      <div style="color: white"><h3>List of Events</h3></div>
+
       <button
         @click="logout"
         title="Logout"
@@ -76,7 +78,9 @@
     </main>
 
     <!-- Footer -->
-    <footer class="mt-auto text-dark border-top text-center py-2 small">
+    <footer
+      class="mt-auto text-body-secondary border-top text-center py-3 small"
+    >
       SBM ITB Event App © 2025
     </footer>
   </div>
@@ -108,3 +112,17 @@ onMounted(() => {
   fetchEvents();
 });
 </script>
+
+<style>
+[data-bs-theme="dark"] {
+  --bs-primary: #fd7e14;
+  --bs-primary-rgb: 253, 126, 20;
+  --bs-primary-text-emphasis: #fd9d4a;
+  --bs-primary-bg-subtle: #331a04;
+  --bs-primary-border-subtle: #663308;
+  --bs-link-color: #fd9d4a;
+  --bs-link-hover-color: #fdaa60;
+  --bs-link-color-rgb: 253, 157, 74;
+  --bs-link-hover-color-rgb: 253, 170, 96;
+}
+</style>

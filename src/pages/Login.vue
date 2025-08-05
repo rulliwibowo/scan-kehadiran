@@ -1,5 +1,8 @@
 <template>
-  <div class="min-vh-100 d-flex align-items-center justify-content-center p-4">
+  <div
+    class="min-vh-100 d-flex align-items-center justify-content-center p-4 bg-body-tertiary"
+    data-bs-theme="dark"
+  >
     <div class="card shadow-lg w-100" style="max-width: 400px">
       <div class="card-body">
         <h3 class="card-title text-center mb-1">Login</h3>
