@@ -26,7 +26,7 @@
             />
           </div>
 
-          <button type="submit" class="btn btn-primary w-100">Login</button>
+          <button type="submit" class="btn btn-primary w-100">Login...</button>
 
           <div
             v-if="error"
