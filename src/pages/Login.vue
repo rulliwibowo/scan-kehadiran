@@ -47,7 +47,6 @@
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { login } from "../api/auth.js";
-import axios from "../libs/axios";
 
 const router = useRouter();
 const username = ref("");

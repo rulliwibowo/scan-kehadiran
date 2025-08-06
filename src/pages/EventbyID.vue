@@ -98,7 +98,8 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import { useRoute } from "vue-router";
-import axios from "axios";
+// import axios from "axios";
+import axios from "../libs/axios";
 
 const route = useRoute();
 const event = ref(null);
@@ -106,7 +107,7 @@ const loading = ref(true);
 
 const fetchEventByID = async () => {
   try {
-    const res = await axios.patch("/api/events/getByID.json", {
+    const res = await axios.patch("/events/getByID.json", {
       id: route.params.id,
     });
     event.value = res.data.event;
@@ -120,12 +121,6 @@ const fetchEventByID = async () => {
 
 onMounted(() => {
   fetchEventByID();
-  axios
-    .patch("/api/events/getByID.json", {
-      id: "b0c0b117-1d2f-4155-85cb-3d260faaa02a",
-    })
-    .then((res) => console.log("✅ Proxy success:", res.data))
-    .catch((err) => console.error("❌ Proxy failed:", err));
 });
 </script>
 

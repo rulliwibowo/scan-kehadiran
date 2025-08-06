@@ -1,10 +1,14 @@
 <template>
-  <div class="container py-4">
+  <div
+    class="d-flex flex-column min-vh-100 bg-body-tertiary p-4"
+    data-bs-theme="dark"
+  >
     <!-- Tombol Kembali -->
     <div class="text-start mb-3">
       <button
         @click="handleBack"
-        class="btn btn-outline-secondary d-inline-flex align-items-center gap-1"
+        class="text-body-secondary d-inline-flex align-items-center"
+        style="background: none; border: none; padding: 0"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -19,19 +23,18 @@
         >
           <polyline points="15 18 9 12 15 6" />
         </svg>
-        Back
       </button>
     </div>
 
     <!-- Judul -->
-    <h2 class="mb-4">Attendance Report</h2>
+    <h2 class="mb-4 text-light">Attendance Report</h2>
 
     <!-- Loading / Error -->
     <div v-if="loading" class="text-muted">Loading...</div>
     <div v-else-if="error" class="text-danger">{{ error }}</div>
 
     <!-- Konten Laporan -->
-    <div v-else>
+    <main v-else class="flex-fill">
       <!-- Total -->
       <div class="card mb-4 shadow-sm">
         <div class="card-body">
@@ -51,7 +54,7 @@
 
       <!-- Detail Per Grup -->
       <div>
-        <h5 class="mb-3">Detail Kehadiran per Grup</h5>
+        <h5 class="mb-3 text-light">Detail Kehadiran per Grup</h5>
 
         <div
           class="card mb-3 shadow-sm"
@@ -65,7 +68,7 @@
             </div>
             <div class="progress" style="height: 20px">
               <div
-                class="progress-bar bg-success"
+                class="progress-bar bg-primary"
                 role="progressbar"
                 :style="{ width: item.percentage + '%' }"
                 :aria-valuenow="item.percentage"
@@ -78,14 +81,21 @@
           </div>
         </div>
       </div>
-    </div>
+    </main>
+
+    <!-- Footer -->
+    <footer
+      class="mt-auto text-body-secondary border-top text-center pt-3 small"
+    >
+      SBM ITB Event App © 2025
+    </footer>
   </div>
 </template>
 
 <script setup>
 import { onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
-import axios from "axios";
+import axios from "../libs/axios";
 import { useRouter } from "vue-router";
 
 const router = useRouter();
@@ -102,7 +112,7 @@ const error = ref(null);
 
 onMounted(async () => {
   try {
-    const res = await axios.patch("/api/report/gradNightReport.json", {
+    const res = await axios.patch("/report/gradNightReport.json", {
       event_schedule_id: scheduleId,
     });
 
@@ -118,3 +128,29 @@ onMounted(async () => {
   }
 });
 </script>
+
+<style>
+[data-bs-theme="dark"] {
+  --bs-primary: #fd7e14;
+  --bs-primary-rgb: 253, 126, 20;
+  --bs-primary-text-emphasis: #fd9d4a;
+  --bs-primary-bg-subtle: #331a04;
+  --bs-primary-border-subtle: #663308;
+  --bs-link-color: #fd9d4a;
+  --bs-link-hover-color: #fdaa60;
+  --bs-link-color-rgb: 253, 157, 74;
+  --bs-link-hover-color-rgb: 253, 170, 96;
+}
+
+[data-bs-theme="dark"] .btn-outline-primary {
+  --bs-btn-color: var(--bs-primary);
+  --bs-btn-border-color: var(--bs-primary);
+  --bs-btn-hover-color: #fff;
+  --bs-btn-hover-bg: var(--bs-primary);
+  --bs-btn-hover-border-color: var(--bs-primary);
+  --bs-btn-active-color: #fff;
+  --bs-btn-active-bg: var(--bs-primary);
+  --bs-btn-active-border-color: var(--bs-primary);
+  --bs-btn-focus-shadow-rgb: var(--bs-primary-rgb);
+}
+</style>

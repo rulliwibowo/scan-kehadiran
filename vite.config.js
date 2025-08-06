@@ -10,10 +10,6 @@ export default defineConfig({
         target: "https://eventapi.sbm-itb.ac.id",
         changeOrigin: true,
         secure: false,
-        rewrite: (path) => path.replace(/^\/api/, "/api"),
-        configure: (proxy, options) => {
-          proxy.on("proxyReq", (proxyReq, req, res) => {});
-        },
       },
     },
   },

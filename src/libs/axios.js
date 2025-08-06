@@ -1,14 +1,24 @@
 import axios from "axios";
 
-const isLocal = location.hostname === "localhost";
-
-const axiosInstance = axios.create({
-  baseURL: isLocal
-    ? "/api" // development: gunakan proxy
-    : "https://eventapi.sbm-itb.ac.id/api", // production
+const instance = axios.create({
+  baseURL: import.meta.env.VITE_API_BASE_URL,
   headers: {
     "Content-Type": "application/json",
   },
 });
 
-export default axiosInstance;
+// Interceptor untuk menambahkan token ke setiap request secara otomatis
+instance.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
+
+export default instance;

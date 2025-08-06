@@ -40,7 +40,18 @@
 
     <!-- Main Content -->
     <main class="flex-fill container" style="padding-left: 0 !important">
-      <div class="row g-4">
+      <!-- Loading State -->
+      <div v-if="loading" class="text-center text-muted">
+        <p>Loading events...</p>
+      </div>
+
+      <!-- Error State -->
+      <div v-else-if="error" class="alert alert-danger text-center">
+        {{ error }}
+      </div>
+
+      <!-- Content -->
+      <div v-else-if="events.length > 0" class="row g-4">
         <div
           v-for="event in events"
           :key="event.id"
@@ -56,7 +67,6 @@
                 <span class="card-title h6 mb-0" style="font-weight: 400">{{
                   event.name
                 }}</span>
-                <!-- Ganti ikon panah di sini -->
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="20"
@@ -75,6 +85,11 @@
           </div>
         </div>
       </div>
+
+      <!-- No Events State -->
+      <div v-else class="text-center text-muted">
+        <p>No events found.</p>
+      </div>
     </main>
 
     <!-- Footer -->
@@ -88,18 +103,26 @@
 
 <script setup>
 import { ref, onMounted } from "vue";
-import axios from "axios";
+// import axios from "axios";
+import axios from "../libs/axios";
 import { useRouter } from "vue-router";
 
 const router = useRouter();
 const events = ref([]);
+const loading = ref(true);
+const error = ref(null);
 
 const fetchEvents = async () => {
+  loading.value = true;
+  error.value = null;
   try {
-    const res = await axios.get("/api/events/index.json");
+    const res = await axios.get("/events/index.json");
     events.value = res.data.events;
   } catch (err) {
     console.error("[ERROR] Gagal fetch event:", err);
+    error.value = "Failed to load events. Please try again later.";
+  } finally {
+    loading.value = false;
   }
 };
 
