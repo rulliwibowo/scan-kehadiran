@@ -2,7 +2,7 @@
   <div
     class="d-flex flex-column bg-body-tertiary"
     data-bs-theme="dark"
-    style="min-height: 100vh !important; padding: 50px 0.5rem 0 0.5rem"
+    style="min-height: 100vh !important; padding: 20px"
   >
     <!-- Header -->
     <header style="margin-bottom: 30px; position: relative">
@@ -51,7 +51,7 @@
           v-for="event in events"
           :key="event.id"
           class="col-12"
-          style="margin-top: 12px"
+          style="margin-top: 12px; padding: 0px"
         >
           <div class="card h-100 shadow-sm border-0" style="border-radius: 8px">
             <div class="card-body p-3">
