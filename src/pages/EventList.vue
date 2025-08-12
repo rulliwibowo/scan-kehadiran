@@ -6,7 +6,7 @@
   >
     <!-- Header -->
     <header style="margin-bottom: 30px; position: relative">
-      <div style="color: white"><h3>List of Events</h3></div>
+      <div style="color: white"><h3>Daftar Acara</h3></div>
 
       <button
         @click="logout"
