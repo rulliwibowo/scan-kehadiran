@@ -128,29 +128,3 @@ onMounted(async () => {
   }
 });
 </script>
-
-<style>
-[data-bs-theme="dark"] {
-  --bs-primary: #fd7e14;
-  --bs-primary-rgb: 253, 126, 20;
-  --bs-primary-text-emphasis: #fd9d4a;
-  --bs-primary-bg-subtle: #331a04;
-  --bs-primary-border-subtle: #663308;
-  --bs-link-color: #fd9d4a;
-  --bs-link-hover-color: #fdaa60;
-  --bs-link-color-rgb: 253, 157, 74;
-  --bs-link-hover-color-rgb: 253, 170, 96;
-}
-
-[data-bs-theme="dark"] .btn-outline-primary {
-  --bs-btn-color: var(--bs-primary);
-  --bs-btn-border-color: var(--bs-primary);
-  --bs-btn-hover-color: #fff;
-  --bs-btn-hover-bg: var(--bs-primary);
-  --bs-btn-hover-border-color: var(--bs-primary);
-  --bs-btn-active-color: #fff;
-  --bs-btn-active-bg: var(--bs-primary);
-  --bs-btn-active-border-color: var(--bs-primary);
-  --bs-btn-focus-shadow-rgb: var(--bs-primary-rgb);
-}
-</style>
