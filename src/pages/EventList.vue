@@ -2,12 +2,7 @@
   <div
     class="d-flex flex-column bg-body-tertiary"
     data-bs-theme="dark"
-    style="
-      min-height: 100vh !important;
-      padding-top: 50px;
-      padding-left: 20px;
-      padding-right: 20px;
-    "
+    style="min-height: 100vh !important; padding: 50px 0.5rem 0 0.5rem"
   >
     <!-- Header -->
     <header style="margin-bottom: 30px; position: relative">
@@ -39,7 +34,7 @@
     </header>
 
     <!-- Main Content -->
-    <main class="flex-fill container" style="padding-left: 0 !important">
+    <main class="flex-fill container-fluid">
       <!-- Loading State -->
       <div v-if="loading" class="text-center text-muted">
         <p>Loading events...</p>

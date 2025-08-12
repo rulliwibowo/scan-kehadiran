@@ -1,6 +1,6 @@
 <template>
   <div
-    class="d-flex flex-column min-vh-100 bg-body-tertiary p-4"
+    class="d-flex flex-column min-vh-100 bg-body-tertiary py-4 px-2"
     data-bs-theme="dark"
   >
     <!-- Tombol Kembali -->

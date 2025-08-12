@@ -2,12 +2,7 @@
   <div
     class="d-flex flex-column bg-body-tertiary"
     data-bs-theme="dark"
-    style="
-      min-height: 100vh !important;
-      padding-top: 1.2rem;
-      padding-left: 12px;
-      padding-right: 12px;
-    "
+    style="min-height: 100vh !important; padding: 1.2rem 0.5rem"
   >
     <!-- Tombol Back Ikon Panah Kiri -->
     <router-link

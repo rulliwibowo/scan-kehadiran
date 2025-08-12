@@ -4,7 +4,7 @@
 
     <!-- Main Content -->
     <main
-      class="flex-1 p-3 space-y-4"
+      class="flex-1 space-y-4"
       style="
         background-color: #fafafa;
         padding-bottom: 0rem !important;

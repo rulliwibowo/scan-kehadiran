@@ -116,7 +116,10 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <div class="d-flex flex-column" style="min-height: 98.5vh; padding: 1rem">
+  <div
+    class="d-flex flex-column"
+    style="min-height: 98.5vh; padding: 1rem 0.5rem 0 0.5rem"
+  >
     <div class="text-start">
       <button
         @click="handleBack"
