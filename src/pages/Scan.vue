@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, onBeforeUnmount } from "vue";
 import { BrowserMultiFormatReader } from "@zxing/browser";
 import axios from "axios";
 import Swal from "sweetalert2";
@@ -34,7 +34,10 @@ const startScan = () => {
       message.value = "Waiting QR code scan...";
 
       try {
-        const res = await axios.put("/api/participant/attendance.json", {
+        const apiUrl = `${
+          import.meta.env.VITE_API_BASE_URL
+        }/api/participant/attendance.json`;
+        const res = await axios.put(apiUrl, {
           id: scannedID,
           attendance: "true",
         });
@@ -57,21 +60,20 @@ const startScan = () => {
   );
 };
 
-const handleBack = async () => {
+const stopCamera = () => {
   try {
     if (codeReader) {
-      if (typeof codeReader.stopContinuousDecode === "function") {
-        await codeReader.stopContinuousDecode(); // stop scanning
-      }
-      if (typeof codeReader.reset === "function") {
-        codeReader.reset();
-      }
+      // reset() akan menghentikan decode dan melepaskan kamera
+      codeReader.reset();
     }
   } catch (e) {
     console.warn("Gagal stop kamera:", e);
-  } finally {
-    router.back(); // atau router.back();
   }
+};
+
+const handleBack = () => {
+  stopCamera();
+  router.back();
 };
 
 const showErrorModal = async (msg) => {
@@ -109,6 +111,10 @@ onMounted(async () => {
     console.error("Tidak bisa akses kamera:", error);
     message.value = "❌ Tidak bisa mengakses kamera.";
   }
+});
+
+onBeforeUnmount(() => {
+  stopCamera();
 });
 </script>
 
