@@ -96,7 +96,18 @@ onMounted(async () => {
 
     const devices = await navigator.mediaDevices.enumerateDevices();
     const videoDevices = devices.filter((d) => d.kind === "videoinput");
-    selectedDeviceId = videoDevices[0]?.deviceId;
+
+    // Coba cari kamera belakang berdasarkan labelnya
+    const rearCamera = videoDevices.find(
+      (device) =>
+        device.label.toLowerCase().includes("back") ||
+        device.label.toLowerCase().includes("rear") ||
+        device.label.toLowerCase().includes("belakang")
+    );
+
+    // Gunakan kamera belakang jika ditemukan, jika tidak, gunakan kamera pertama yang tersedia.
+    // Ini akan menjadi fallback untuk desktop atau HP yang tidak memiliki label yang jelas.
+    selectedDeviceId = rearCamera?.deviceId || videoDevices[0]?.deviceId;
 
     if (!selectedDeviceId) {
       message.value = "Camera tidak tersedia.";
