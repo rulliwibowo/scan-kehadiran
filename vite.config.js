@@ -5,6 +5,7 @@ import vue from "@vitejs/plugin-vue";
 export default defineConfig({
   plugins: [vue()],
   server: {
+    host: true, // <-- Tambahkan ini agar bisa diakses dari network
     proxy: {
       "/api": {
         target: "https://eventapi.sbm-itb.ac.id",

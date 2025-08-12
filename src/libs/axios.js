@@ -1,7 +1,10 @@
 import axios from "axios";
 
 const instance = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL,
+  // In development (when running `npm run dev`), use a relative path ('/').
+  // This allows Vite's proxy to handle the request correctly,
+  // whether you access the app from localhost or a network IP.
+  baseURL: import.meta.env.DEV ? "/" : import.meta.env.VITE_API_BASE_URL,
   headers: {
     "Content-Type": "application/json",
   },
