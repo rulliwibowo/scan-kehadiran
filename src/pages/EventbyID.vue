@@ -2,7 +2,7 @@
   <div
     class="d-flex flex-column bg-body-tertiary"
     data-bs-theme="dark"
-    style="min-height: 100vh !important; padding: 20px"
+    style="min-height: 100vh !important; padding: 20px 20px 80px 20px"
   >
     <!-- Tombol Back Ikon Panah Kiri -->
     <router-link
@@ -113,7 +113,8 @@
     </div>
     <!-- Footer -->
     <footer
-      class="mt-auto text-body-secondary border-top text-center py-3 small"
+      class="text-body-secondary border-top text-center py-3 small bg-body-tertiary"
+      style="position: fixed; bottom: 0; left: 0; right: 0; z-index: 1000"
     >
       SBM ITB Event App © 2025
     </footer>
