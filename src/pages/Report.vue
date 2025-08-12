@@ -28,7 +28,7 @@
     </div>
 
     <!-- Judul -->
-    <h2 class="mb-4 text-light">Attendance Report</h2>
+    <h2 class="mb-4 text-light">Laporan Kehadiran</h2>
 
     <!-- Loading / Error -->
     <div v-if="loading" class="text-muted">Loading...</div>
@@ -39,17 +39,21 @@
       <!-- Total -->
       <div class="card mb-4 shadow-sm">
         <div class="card-body">
-          <h5 class="card-title">Data Participant</h5>
-          <p class="card-text mb-1">
-            Total: <strong>{{ report.total.total }}</strong>
+          <h5 class="card-title">Data Partisipan</h5>
+          <p class="card-text mb-1 text-muted small">
+            <span
+              >Total Undangan: <strong>{{ report.total.total }}</strong></span
+            >
+            <span class="ms-3"
+              >Present: <strong>{{ report.total.total_attend }}</strong></span
+            >
           </p>
-          <p class="card-text mb-1">
-            Present: <strong>{{ report.total.total_attend }}</strong>
-          </p>
-          <p class="card-text">
-            Persentase Attendance:
-            <strong>{{ report.total.total_percentage }}%</strong>
-          </p>
+          <div class="text-center mt-3 pt-2 border-top">
+            <div class="text-muted small">Persentase Kehadiran</div>
+            <div class="display-4 fw-bold text-success">
+              {{ report.total.total_percentage }}%
+            </div>
+          </div>
         </div>
       </div>
 
