@@ -116,7 +116,7 @@ const fetchEvents = async () => {
   loading.value = true;
   error.value = null;
   try {
-    const res = await axios.get("/events/index.json");
+    const res = await axios.get("/api/events/index.json");
     events.value = res.data.events;
   } catch (err) {
     console.error("[ERROR] Gagal fetch event:", err);

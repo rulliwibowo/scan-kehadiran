@@ -112,7 +112,7 @@ const error = ref(null);
 
 onMounted(async () => {
   try {
-    const res = await axios.patch("/report/gradNightReport.json", {
+    const res = await axios.patch("/api/report/gradNightReport.json", {
       event_schedule_id: scheduleId,
     });
 

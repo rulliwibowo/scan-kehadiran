@@ -34,10 +34,7 @@ const startScan = () => {
       message.value = "Waiting QR code scan...";
 
       try {
-        const apiUrl = `${
-          import.meta.env.VITE_API_BASE_URL
-        }/api/participant/attendance.json`;
-        const res = await axios.put(apiUrl, {
+        const res = await axios.put("/api/participant/attendance.json", {
           id: scannedID,
           attendance: "true",
         });

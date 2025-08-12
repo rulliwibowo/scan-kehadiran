@@ -107,7 +107,7 @@ const loading = ref(true);
 
 const fetchEventByID = async () => {
   try {
-    const res = await axios.patch("/events/getByID.json", {
+    const res = await axios.patch("/api/events/getByID.json", {
       id: route.params.id,
     });
     event.value = res.data.event;
