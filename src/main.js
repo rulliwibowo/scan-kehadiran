@@ -30,10 +30,6 @@ axios.interceptors.request.use((config) => {
   return config;
 });
 
-console.log("[TRACE] main.js mulai");
-
 const app = createApp(App);
 app.use(router);
 app.mount("#app");
-
-console.log("[TRACE] App mounted ke #app");
