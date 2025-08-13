@@ -46,58 +46,9 @@
               </p>
               <router-link
                 class="btn btn-sm btn-outline-primary mt-2"
-                :to="`/report/${s.id}`"
+                :to="`/report/${s.id}?date=${s.start_date}`"
               >
                 Lihat Laporan Kehadiran
-              </router-link>
-
-              <!-- Tombol Scan Pojok Kanan Bawah -->
-              <router-link
-                to="/scan"
-                :class="[
-                  'btn',
-                  isToday(s.start_date)
-                    ? 'btn-success'
-                    : 'btn-secondary disabled',
-                  'position-absolute',
-                  'd-flex',
-                  'align-items-center',
-                  'justify-content-center',
-                ]"
-                style="
-                  bottom: 0.75rem;
-                  right: 0.75rem;
-                  width: 50px;
-                  height: 50px;
-                  border-radius: 0.5rem;
-                "
-                :title="
-                  isToday(s.start_date)
-                    ? 'Scan Kehadiran'
-                    : 'Scan hanya bisa dilakukan pada hari acara'
-                "
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="30"
-                  height="30"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  class="feather feather-qr-code-scan"
-                  viewBox="0 0 24 24"
-                >
-                  <path d="M17 12v4a1 1 0 0 1-1 1h-4" />
-                  <path d="M17 3h2a2 2 0 0 1 2 2v2" />
-                  <path d="M17 8V7" />
-                  <path d="M21 17v2a2 2 0 0 1-2 2h-2" />
-                  <path d="M3 7V5a2 2 0 0 1 2-2h2" />
-                  <path d="M7 17h.01" />
-                  <path d="M7 21H5a2 2 0 0 1-2-2v-2" />
-                  <rect x="7" y="7" width="5" height="5" rx="1" />
-                </svg>
               </router-link>
             </div>
           </div>
@@ -126,18 +77,6 @@ import { ref, onMounted } from "vue";
 import { useRoute } from "vue-router";
 // import axios from "axios";
 import axios from "../libs/axios";
-
-const isToday = (dateString) => {
-  if (!dateString) return false;
-  const eventDate = new Date(dateString);
-  const today = new Date();
-
-  // Reset time part to 00:00:00 for both dates to compare only the date part
-  eventDate.setHours(0, 0, 0, 0);
-  today.setHours(0, 0, 0, 0);
-
-  return eventDate.getTime() === today.getTime();
-};
 
 const route = useRoute();
 const event = ref(null);

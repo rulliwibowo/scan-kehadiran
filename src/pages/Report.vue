@@ -28,7 +28,47 @@
     </div>
 
     <!-- Judul -->
-    <h2 class="mb-4 text-light">Laporan Kehadiran</h2>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h2 class="mb-0 text-light">Laporan Kehadiran</h2>
+      <router-link
+        to="/scan"
+        :class="[
+          'btn',
+          isToday(scheduleDate) ? 'btn-success' : 'btn-secondary disabled',
+        ]"
+        :title="
+          isToday(scheduleDate)
+            ? 'Scan QR'
+            : 'Scan hanya bisa dilakukan pada hari acara'
+        "
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="16"
+          height="16"
+          fill="currentColor"
+          class="bi bi-qr-code-scan"
+          viewBox="0 0 16 16"
+        >
+          <path
+            d="M0 .5A.5.5 0 0 1 .5 0h3a.5.5 0 0 1 0 1H1v2.5a.5.5 0 0 1-1 0v-3Zm12 0a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-1 0V1h-2.5a.5.5 0 0 1-.5-.5ZM.5 12a.5.5 0 0 1 .5.5V15h2.5a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5v-3a.5.5 0 0 1 .5-.5Zm15 0a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1 0-1H15v-2.5a.5.5 0 0 1 .5-.5Z M4 4h1v1H4V4Z"
+          />
+          <path
+            d="M7 2H2v5h5V2ZM3 3h3v3H3V3Zm4 1H6v1h1V4Zm1 1H7v1h1V5Zm-1 2H6v1h1V7Z"
+          />
+          <path
+            d="M7 9H2v5h5V9Zm-4 1h3v3H3v-3Zm4-1H6v1h1V9Zm1 1H7v1h1v-1Zm-1 2H6v1h1v-1Z"
+          />
+          <path
+            d="M14 9h-5v5h5V9Zm-4 1h3v3h-3v-3Zm4-1h-1v1h1V9Zm1 1h-1v1h1v-1Zm-1 2h-1v1h1v-1Z"
+          />
+          <path
+            d="M14 2H9v5h5V2Zm-4 1h3v3h-3V3Zm4-1h-1v1h1V2Zm1 1h-1v1h1V4Zm-1 2h-1v1h1V6Z"
+          />
+        </svg>
+        <span class="ms-2">Scan</span>
+      </router-link>
+    </div>
 
     <!-- Loading / Error -->
     <div v-if="loading" class="text-muted">Loading...</div>
@@ -111,10 +151,20 @@ const handleBack = () => {
 
 const route = useRoute();
 const scheduleId = route.params.id;
+const scheduleDate = route.query.date;
 
 const report = ref(null);
 const loading = ref(true);
 const error = ref(null);
+
+const isToday = (dateString) => {
+  if (!dateString) return false;
+  const eventDate = new Date(dateString);
+  const today = new Date();
+  eventDate.setHours(0, 0, 0, 0);
+  today.setHours(0, 0, 0, 0);
+  return eventDate.getTime() === today.getTime();
+};
 
 onMounted(async () => {
   try {

@@ -6,31 +6,12 @@
   >
     <!-- Header -->
     <header style="margin-bottom: 30px; position: relative">
-      <div style="color: white"><h3>Daftar Acara</h3></div>
-
-      <button
-        @click="logout"
-        title="Logout"
-        class="btn btn-link p-0"
-        style="position: absolute; top: 0; right: 0"
-      >
-        <!-- Logout icon -->
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          class="feather feather-log-out"
+      <div class="d-flex justify-content-between align-items-center">
+        <h3 class="text-light mb-0">Daftar Acara</h3>
+        <router-link to="/super-dashboard" class="btn btn-sm btn-outline-light"
+          >Dashboard Desktop</router-link
         >
-          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
-          <polyline points="16 17 21 12 16 7" />
-          <line x1="21" y1="12" x2="9" y2="12" />
-        </svg>
-      </button>
+      </div>
     </header>
 
     <!-- Main Content -->
@@ -89,10 +70,37 @@
 
     <!-- Footer -->
     <footer
-      class="text-body-secondary border-top text-center py-3 small bg-body-tertiary"
-      style="position: fixed; bottom: 0; left: 0; right: 0; z-index: 1000"
+      class="d-flex justify-content-between align-items-center text-body-secondary border-top py-3 small bg-body-tertiary"
+      style="
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+        padding: 0 20px;
+      "
     >
-      SBM ITB Event App © 2025
+      <div style="width: 24px"></div>
+      <!-- Spacer -->
+      <span>SBM ITB Event App © 2025</span>
+      <button @click="logout" title="Logout" class="btn btn-link p-0">
+        <!-- Logout icon -->
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="feather feather-log-out text-body-secondary"
+        >
+          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+          <polyline points="16 17 21 12 16 7" />
+          <line x1="21" y1="12" x2="9" y2="12" />
+        </svg>
+      </button>
     </footer>
   </div>
 </template>
