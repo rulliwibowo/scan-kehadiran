@@ -1,16 +1,18 @@
 <script setup>
 import { ref, onMounted, onBeforeUnmount } from "vue";
 import { BrowserMultiFormatReader } from "@zxing/browser";
-import axios from "axios";
+import axios from "../libs/axios";
 import Swal from "sweetalert2";
-import { useRouter } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 
 const videoRef = ref(null);
 const message = ref("Waiting QR code scan...");
+const route = useRoute();
 const router = useRouter();
 let codeReader = null;
 let scanning = true;
 let selectedDeviceId = null;
+const eventScheduleId = ref(null);
 
 const startScan = () => {
   if (!selectedDeviceId) {
@@ -35,23 +37,51 @@ const startScan = () => {
 
       try {
         const res = await axios.put("/api/participant/attendance.json", {
+          event_schedule_id: eventScheduleId.value,
           id: scannedID,
-          attendance: "true",
         });
 
         const response = res.data.response;
 
-        if (
-          response &&
-          response.code === 200 &&
-          response.data !== "Not found"
-        ) {
-          message.value = "✅ Kehadiran berhasil dicatat!";
+        if (response && response.code === 200 && response.data) {
+          const participantName = response.data.name || "Peserta";
+          const groupName = response.data.group_participant?.name || "Grup";
+          const messageText = response.message || "";
+
+          if (messageText.toLowerCase().includes("already scan")) {
+            await showResultModal(
+              "Informasi",
+              `${participantName} (${groupName}) sudah melakukan scan.`,
+              "info"
+            );
+          } else {
+            message.value = `✅ ${participantName} - ${groupName}`;
+            await Swal.fire({
+              icon: "success",
+              title: "Berhasil!",
+              text: `Kehadiran untuk ${participantName} (${groupName}) berhasil dicatat.`,
+              timer: 2000,
+              showConfirmButton: false,
+            });
+            setTimeout(() => {
+              scanning = true;
+              message.value = "Waiting QR code scan...";
+            }, 500);
+          }
         } else {
-          await showErrorModal(response.message || "Code Not Found");
+          await showResultModal(
+            "Gagal",
+            response?.message || "Kode QR tidak valid.",
+            "error"
+          );
         }
       } catch (error) {
-        await showErrorModal("Please check your code.");
+        const apiErrorMessage = error.response?.data?.response?.message;
+        await showResultModal(
+          "Error",
+          apiErrorMessage || "Terjadi kesalahan. Silakan coba lagi.",
+          "error"
+        );
       }
     }
   );
@@ -73,22 +103,24 @@ const handleBack = () => {
   router.back();
 };
 
-const showErrorModal = async (msg) => {
-  const result = await Swal.fire({
-    icon: "warning",
-    title: "Code Not Found",
+const showResultModal = async (title, msg, icon) => {
+  await Swal.fire({
+    icon: icon,
+    title: title,
     text: msg,
-    confirmButtonText: "Close",
-    confirmButtonColor: "#d33",
+    confirmButtonText: "Tutup",
   });
-
-  if (result.isConfirmed) {
-    scanning = true;
-    startScan(); // restart scan hanya setelah modal ditutup
-  }
+  scanning = true;
+  message.value = "Waiting QR code scan...";
 };
 
 onMounted(async () => {
+  eventScheduleId.value = route.query.schedule_id;
+  if (!eventScheduleId.value) {
+    message.value = "ID Jadwal tidak valid. Silakan kembali.";
+    return;
+  }
+
   codeReader = new BrowserMultiFormatReader();
 
   try {

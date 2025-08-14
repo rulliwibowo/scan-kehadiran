@@ -327,28 +327,43 @@ const startScan = async () => {
           try {
             const res = await axios.put("/api/participant/attendance.json", {
               id: scannedID,
-              attendance: "true",
+              event_schedule_id: selectedSchedule.value.id,
             });
             const response = res.data.response;
-            if (
-              response &&
-              response.code === 200 &&
-              response.data !== "Not found"
-            ) {
-              Swal.fire(
-                "Berhasil",
-                `Kehadiran untuk ${response.data.name} berhasil dicatat!`,
-                "success"
-              );
+            if (response && response.code === 200 && response.data) {
+              const participantName = response.data.name || "Peserta";
+              const groupName = response.data.group_participant?.name || "Grup";
+              const messageText = response.message || "";
+
+              if (messageText.toLowerCase().includes("already scan")) {
+                Swal.fire({
+                  icon: "info",
+                  title: "Informasi",
+                  text: `${participantName} (${groupName}) sudah melakukan scan.`,
+                });
+              } else {
+                Swal.fire({
+                  icon: "success",
+                  title: "Berhasil!",
+                  text: `Kehadiran untuk ${participantName} (${groupName}) berhasil dicatat.`,
+                  timer: 2000,
+                  showConfirmButton: false,
+                });
+              }
             } else {
               Swal.fire(
                 "Gagal",
-                response.message || "Kode QR tidak valid.",
+                response?.message || "Kode QR tidak valid.",
                 "error"
               );
             }
           } catch (error) {
-            Swal.fire("Error", "Terjadi kesalahan saat memproses QR.", "error");
+            const apiErrorMessage = error.response?.data?.response?.message;
+            Swal.fire(
+              "Error",
+              apiErrorMessage || "Terjadi kesalahan saat memproses QR.",
+              "error"
+            );
           }
 
           // Resume scanning after a short delay

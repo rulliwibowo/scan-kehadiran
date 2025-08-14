@@ -31,7 +31,7 @@
     <div class="d-flex justify-content-between align-items-center mb-4">
       <h2 class="mb-0 text-light">Laporan Kehadiran</h2>
       <router-link
-        to="/scan"
+        :to="`/scan?schedule_id=${scheduleId}`"
         :class="[
           'btn',
           isToday(scheduleDate) ? 'btn-success' : 'btn-secondary disabled',
@@ -101,26 +101,27 @@
       <div>
         <h5 class="mb-3 text-light">Detail Kehadiran per Grup</h5>
 
-        <div
-          class="card mb-3 shadow-sm"
-          v-for="(item, i) in report.group_report"
-          :key="i"
-        >
-          <div class="card-body">
-            <div class="d-flex justify-content-between mb-1">
-              <strong>Grup {{ item.group }}</strong>
-              <span>{{ item.percentage }}%</span>
-            </div>
-            <div class="progress" style="height: 20px">
-              <div
-                class="progress-bar bg-primary"
-                role="progressbar"
-                :style="{ width: item.percentage + '%' }"
-                :aria-valuenow="item.percentage"
-                aria-valuemin="0"
-                aria-valuemax="100"
-              >
-                {{ item.attend }}/{{ item.total }}
+        <div class="row g-3">
+          <div class="col-6" v-for="(item, i) in report.group_report" :key="i">
+            <div class="card h-100 shadow-sm">
+              <div class="card-body">
+                <div class="d-flex justify-content-between mb-1">
+                  <strong>{{ item.group }}</strong>
+                  <span>{{ item.percentage }}%</span>
+                </div>
+                <div class="progress" style="height: 5px">
+                  <div
+                    class="progress-bar bg-primary"
+                    role="progressbar"
+                    :style="{ width: item.percentage + '%' }"
+                    :aria-valuenow="item.percentage"
+                    aria-valuemin="0"
+                    aria-valuemax="100"
+                  ></div>
+                </div>
+                <div class="text-end small mt-1 text-muted">
+                  {{ item.attend }}/{{ item.total }}
+                </div>
               </div>
             </div>
           </div>
