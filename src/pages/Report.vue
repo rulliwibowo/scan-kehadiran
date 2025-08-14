@@ -173,10 +173,21 @@ onMounted(async () => {
       event_schedule_id: scheduleId,
     });
 
-    report.value = {
-      total: res.data.data.total_participant,
-      group_report: res.data.data.group_report,
-    };
+    // Check for the specific "not found" response from the API
+    if (res.data?.data?.code === 204) {
+      error.value =
+        res.data.data.message || "Data laporan tidak dapat ditemukan.";
+      report.value = null; // Ensure report data is cleared
+    } else if (res.data?.data?.total_participant) {
+      // Handle successful response with data
+      report.value = {
+        total: res.data.data.total_participant,
+        group_report: res.data.data.group_report,
+      };
+    } else {
+      // Handle other unexpected successful responses
+      error.value = "Format data laporan tidak valid.";
+    }
   } catch (err) {
     error.value = "Gagal mengambil data laporan.";
     console.error(err);

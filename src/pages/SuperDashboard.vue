@@ -94,6 +94,12 @@
             <div v-if="loading.report" class="text-muted">
               Loading report...
             </div>
+            <div
+              v-else-if="reportError"
+              class="alert alert-warning text-center"
+            >
+              {{ reportError }}
+            </div>
             <div v-else-if="report">
               <h6 class="text-info">
                 Laporan untuk: {{ selectedSchedule.descrip }}
@@ -192,6 +198,7 @@ const events = ref([]);
 const selectedEvent = ref(null);
 const selectedSchedule = ref(null);
 const report = ref(null);
+const reportError = ref(null);
 const activePanel = ref(null); // 'report', 'scanner', or null
 const loading = reactive({
   events: true,
@@ -243,25 +250,39 @@ const selectSchedule = (schedule) => {
   }
   selectedSchedule.value = schedule;
   activePanel.value = null; // Reset panel aksi
+  reportError.value = null;
   stopCamera();
   // After selecting a schedule, show the report by default.
   showReport();
 };
 
 const showReport = async () => {
-  if (!selectedSchedule.value || activePanel.value === "report") return;
+  if (!selectedSchedule.value) return;
+  // Allow re-fetching if there was an error, otherwise don't re-fetch if already active
+  if (activePanel.value === "report" && !reportError.value) return;
+
   activePanel.value = "report";
   report.value = null;
+  reportError.value = null;
   loading.report = true;
   try {
     const res = await axios.patch("/api/report/gradNightReport.json", {
       event_schedule_id: selectedSchedule.value.id,
     });
-    report.value = {
-      total: res.data.data.total_participant,
-      group_report: res.data.data.group_report,
-    };
+
+    if (res.data?.data?.code === 204) {
+      reportError.value =
+        res.data.data.message || "Data laporan tidak dapat ditemukan.";
+    } else if (res.data?.data?.total_participant) {
+      report.value = {
+        total: res.data.data.total_participant,
+        group_report: res.data.data.group_report,
+      };
+    } else {
+      reportError.value = "Format data laporan tidak valid.";
+    }
   } catch (err) {
+    reportError.value = "Gagal mengambil data laporan.";
     console.error("Gagal ambil laporan:", err);
   } finally {
     loading.report = false;
