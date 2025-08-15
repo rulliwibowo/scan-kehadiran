@@ -107,7 +107,6 @@
               <div class="card-body">
                 <div class="d-flex justify-content-between mb-1">
                   <strong>{{ item.group }}</strong>
-                  <span>{{ item.percentage }}%</span>
                 </div>
                 <div class="progress" style="height: 5px">
                   <div
@@ -119,8 +118,11 @@
                     aria-valuemax="100"
                   ></div>
                 </div>
-                <div class="text-end small mt-1 text-muted">
-                  {{ item.attend }}/{{ item.total }}
+                <div
+                  class="d-flex justify-content-between small mt-1 text-muted"
+                >
+                  <span>{{ item.attend }}/{{ item.total }}</span>
+                  <span>{{ Math.round(item.percentage) }}%</span>
                 </div>
               </div>
             </div>

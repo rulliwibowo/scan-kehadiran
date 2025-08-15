@@ -127,17 +127,20 @@
                   <div class="card h-100 shadow-sm">
                     <div class="card-body p-2">
                       <div class="d-flex justify-content-between mb-1">
-                        <strong>Grup {{ item.group }}</strong>
-                        <span>{{ item.percentage }}%</span>
+                        <strong>{{ item.group }}</strong>
                       </div>
-                      <div class="progress" style="height: 20px">
+                      <div class="progress" style="height: 5px">
                         <div
-                          class="progress-bar"
+                          class="progress-bar bg-primary"
                           role="progressbar"
                           :style="{ width: item.percentage + '%' }"
-                        >
-                          {{ item.attend }}/{{ item.total }}
-                        </div>
+                        ></div>
+                      </div>
+                      <div
+                        class="d-flex justify-content-between small mt-1 text-muted"
+                      >
+                        <span>{{ item.attend }}/{{ item.total }}</span>
+                        <span>{{ Math.round(item.percentage) }}%</span>
                       </div>
                     </div>
                   </div>
