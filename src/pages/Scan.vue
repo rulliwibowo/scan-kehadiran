@@ -121,25 +121,32 @@ onMounted(async () => {
     return;
   }
 
+  // Akses kamera memerlukan koneksi aman (HTTPS) atau localhost
+  if (
+    window.location.protocol !== "https:" &&
+    window.location.hostname !== "localhost"
+  ) {
+    message.value = "❌ Akses kamera memerlukan koneksi HTTPS.";
+    return;
+  }
+
   codeReader = new BrowserMultiFormatReader();
 
   try {
-    await navigator.mediaDevices.getUserMedia({ video: true });
+    const videoInputDevices =
+      await BrowserMultiFormatReader.listVideoInputDevices();
 
-    const devices = await navigator.mediaDevices.enumerateDevices();
-    const videoDevices = devices.filter((d) => d.kind === "videoinput");
+    if (videoInputDevices.length < 1) {
+      message.value = "Tidak ada kamera yang ditemukan.";
+      return;
+    }
 
-    // Coba cari kamera belakang berdasarkan labelnya
-    const rearCamera = videoDevices.find(
-      (device) =>
-        device.label.toLowerCase().includes("back") ||
-        device.label.toLowerCase().includes("rear") ||
-        device.label.toLowerCase().includes("belakang")
+    // Prioritaskan kamera belakang (environment)
+    let rearCamera = videoInputDevices.find((device) =>
+      /back|rear|environment/i.test(device.label)
     );
 
-    // Gunakan kamera belakang jika ditemukan, jika tidak, gunakan kamera pertama yang tersedia.
-    // Ini akan menjadi fallback untuk desktop atau HP yang tidak memiliki label yang jelas.
-    selectedDeviceId = rearCamera?.deviceId || videoDevices[0]?.deviceId;
+    selectedDeviceId = rearCamera?.deviceId || videoInputDevices[0]?.deviceId;
 
     if (!selectedDeviceId) {
       message.value = "Camera tidak tersedia.";
@@ -149,7 +156,16 @@ onMounted(async () => {
     startScan();
   } catch (error) {
     console.error("Tidak bisa akses kamera:", error);
-    message.value = "❌ Tidak bisa mengakses kamera.";
+    if (error.name === "NotAllowedError") {
+      message.value = "❌ Anda harus memberikan izin untuk mengakses kamera.";
+    } else if (error.name === "NotFoundError") {
+      message.value = "❌ Tidak ada kamera yang ditemukan di perangkat ini.";
+    } else if (error.name === "NotReadableError") {
+      message.value = "❌ Kamera sedang digunakan oleh aplikasi lain.";
+    } else {
+      message.value =
+        "❌ Gagal mengakses kamera. Pastikan izin telah diberikan.";
+    }
   }
 });
 

@@ -46,7 +46,7 @@
               </p>
               <router-link
                 class="btn btn-sm btn-outline-primary mt-2"
-                :to="`/report/${s.id}?date=${s.start_date}`"
+                :to="`/report/${s.id}?date=${s.start_date}&eventName=${event.name}`"
               >
                 Lihat Laporan Kehadiran
               </router-link>

@@ -79,19 +79,20 @@
       <!-- Total -->
       <div class="card mb-4 shadow-sm">
         <div class="card-body">
-          <h5 class="card-title">Data Partisipan</h5>
+          <h5 class="card-title">{{ eventName || "Data Peserta" }}</h5>
+
           <p class="card-text mb-1 text-muted small">
             <span
               >Total Undangan: <strong>{{ report.total.total }}</strong></span
             >
             <span class="ms-3"
-              >Present: <strong>{{ report.total.total_attend }}</strong></span
+              >Hadir: <strong>{{ report.total.total_attend }}</strong></span
             >
           </p>
           <div class="text-center mt-3 pt-2 border-top">
             <div class="text-muted small">Persentase Kehadiran</div>
             <div class="display-4 fw-bold text-success">
-              {{ report.total.total_percentage }}%
+              {{ Math.round(report.total.total_percentage) }}%
             </div>
           </div>
         </div>
@@ -102,7 +103,16 @@
         <h5 class="mb-3 text-light">Detail Kehadiran per Grup</h5>
 
         <div class="row g-3">
-          <div class="col-6" v-for="(item, i) in report.group_report" :key="i">
+          <div
+            class="col-6"
+            v-for="(item, i) in report.group_report"
+            :key="i"
+            style="
+              margin-top: 8px !important;
+              padding-left: 5px;
+              padding-right: 5px;
+            "
+          >
             <div class="card h-100 shadow-sm">
               <div class="card-body">
                 <div class="d-flex justify-content-between mb-1">
@@ -155,6 +165,7 @@ const handleBack = () => {
 const route = useRoute();
 const scheduleId = route.params.id;
 const scheduleDate = route.query.date;
+const eventName = route.query.eventName;
 
 const report = ref(null);
 const loading = ref(true);
