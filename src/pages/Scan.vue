@@ -13,6 +13,7 @@ let codeReader = null;
 let scanning = true;
 let selectedDeviceId = null;
 const eventScheduleId = ref(null);
+const recentScans = ref([]);
 
 const startScan = () => {
   if (!selectedDeviceId) {
@@ -55,6 +56,15 @@ const startScan = () => {
               "info"
             );
           } else {
+            const scanData = {
+              name: participantName,
+              group: groupName,
+              timestamp: new Date().toLocaleTimeString(),
+            };
+            recentScans.value.unshift(scanData);
+            if (recentScans.value.length > 10) {
+              recentScans.value.pop(); // Batasi daftar hanya 10 entri terbaru
+            }
             message.value = `✅ ${participantName} - ${groupName}`;
             await Swal.fire({
               icon: "success",
@@ -220,6 +230,29 @@ onBeforeUnmount(() => {
 
     <p class="mt-4 text-center text-lg">{{ message }}</p>
 
+    <!-- Daftar Scan Terbaru -->
+    <div
+      v-if="recentScans.length > 0"
+      class="mt-4 flex-grow-1 overflow-auto"
+      style="padding-bottom: 1rem"
+    >
+      <h6 class="text-center text-muted small mb-2">Histori Scan</h6>
+      <ul class="list-group">
+        <li
+          v-for="(scan, index) in recentScans"
+          :key="index"
+          class="list-group-item d-flex justify-content-between align-items-center"
+        >
+          <div>
+            <strong class="d-block">{{ scan.name }}</strong>
+            <small class="text-muted">{{ scan.group }}</small>
+          </div>
+          <span class="badge bg-secondary rounded-pill">{{
+            scan.timestamp
+          }}</span>
+        </li>
+      </ul>
+    </div>
     <!-- Footer -->
     <footer class="mt-auto text-dark border-top text-center py-2 small">
       SBM ITB Event App © 2025

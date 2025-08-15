@@ -3,7 +3,7 @@
     <!-- Header -->
     <header class="p-3 border-bottom shadow-sm">
       <div class="d-flex justify-content-between align-items-center">
-        <h3 class="mb-0 text-light">Super Dashboard</h3>
+        <h3 class="mb-0 text-light">Dashboard</h3>
         <router-link to="/events" class="btn btn-sm btn-outline-secondary">
           Tampilan Mobile
         </router-link>
